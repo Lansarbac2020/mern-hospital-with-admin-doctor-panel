@@ -1,10 +1,10 @@
 import React from 'react'
-import assets from '../assets/assets'
+import  { assets } from '/src/assets/assets'
 import { NavLink } from 'react-router-dom'
 const NavBar = () => {
 
   return (
-    <div>
+    <div className='flex justify-between items-center text-md py-4 mb-5 border-b border-b-gray-400'>
         <img src={assets.logo} alt='logo'/>
         <ul>
             <NavLink>
