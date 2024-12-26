@@ -11,6 +11,9 @@ export default {
         'secondary': '#00ff00',
         'tertiary': '#0000ff',
       },
+      gridTemplateColumns: {
+        'auto': 'repeat(auto-fill, minmax(200px, 1fr))',
+      },
     },
   },
   plugins: [],

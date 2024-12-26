@@ -13,7 +13,7 @@ const Header = () => {
    </div>
    <a className='flex items-center gap-2 bg-white px-5 py-3 text-sm
    hover:scale-105 rounded-full text-gray-600
-   m-auto translate-all duration-300' href='#' >Get Started <img className='w-3' src={assets.arrow_icon} alt=''/></a>
+   m-auto translate-all duration-300' href='#speciality' >Get Started <img className='w-3' src={assets.arrow_icon} alt=''/></a>
         </div>
         {/* right */}
         <div className='md:w-1/2 relative'>
