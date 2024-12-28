@@ -11,7 +11,7 @@ const NavBar = () => {
   return (
     <div className='flex justify-between items-center text-md py-4 mb-5 border-b border-b-gray-400'>
         <img onClick={()=>navigate('/')} src={assets.logo} alt='logo' className='w-44 cursor-pointer'/>
-        <ul className='hiddern md:flex gap-5 font-medium justify-between w-1/3'>
+        <ul className='hidden md:flex gap-5 font-medium justify-between w-1/3'>
             <NavLink to='/'>
                 <li className='py-1'>Home</li>
                 <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden'/>
@@ -44,6 +44,23 @@ const NavBar = () => {
                 </div>
                 : <button onClick={()=>navigate('/login')} className='bg-primary text-white py-3 px-8 rounded-full font-light hidden md:block'>Sign-up</button>
             }
+          <img src={assets.menu_icon}
+          className='w-6 md:hidden cursor-pointer 
+          '
+          alt='' onClick={()=>setShowMenu(true)}/>
+          {/* mobile view */}
+          <div className={ ` ${showMenu?'fixed w-full ':'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+            <div className='flex justify-between items-center p-5'>
+                <img className='w-36' src={assets.logo} alt="" />
+                <img className='w-7' onClick={()=>setShowMenu(false)} src={assets.cross_icon} alt="" />
+            </div>
+            <ul className='flex flex-col gap-5 items-center text-lg font-medium mt-5'>
+                <NavLink className='inline-block px-4 py-2 rounded' onClick={()=>setShowMenu(false)} to='/'><p>HOME</p></NavLink>
+                <NavLink className='inline-block px-4 py-2 rounded' onClick={()=>setShowMenu(false)} to='/doctors'><p>ALL DOCTORS</p></NavLink>
+                <NavLink className='inline-block px-4 py-2 rounded' onClick={()=>setShowMenu(false)} to='/about'><p>ABOUT</p></NavLink>
+                <NavLink className='inline-block px-4 py-2 rounded' onClick={()=>setShowMenu(false)} to='/contact'><p>CONTACT</p></NavLink>
+            </ul>
+          </div>
            
         </div>
     </div>
