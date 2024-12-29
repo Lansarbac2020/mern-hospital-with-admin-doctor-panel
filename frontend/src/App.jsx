@@ -10,6 +10,7 @@ import MyAppointment from './pages/MyAppointment'
 import Appointment from './pages/Appointment'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
+import ForgotPassword from './pages/ForgotPassword'
 
 const App = () => {
   return (
@@ -26,6 +27,8 @@ const App = () => {
         <Route path='/my-profile' element={<MyProfile/>} />
         <Route path='/my-appointment' element={<MyAppointment/>} />
         <Route path='/appointment/:docId' element={<Appointment/>} />
+        <Route path='/forgot-password' element={<ForgotPassword/>} />
+        <Route path='*' element={<h1>Not Found</h1>} />
       </Routes>
       <Footer/>
     </div>

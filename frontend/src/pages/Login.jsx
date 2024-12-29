@@ -4,6 +4,7 @@ import { assets } from '../assets/assets';
 
 const Login = () => {
 
+
   const [state, setState] = useState('Sign up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,6 +55,10 @@ const Login = () => {
   className='text-primary underline cursor-pointer'>Sign-up</span></p>
  
 }
+<div className='flex items-center gap-2 text-sm text-gray-600'>
+  <p>Forgot password?</p>
+  <Link to='/forgot-password' className='text-primary underline'>Reset password</Link>
+</div>
     </div>
    </form>
   );
