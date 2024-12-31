@@ -1,8 +1,12 @@
 import React from 'react'
+import Login from './pages/Login'
 
 const Admin = () => {
   return (
-    <div className='text-green-900'>Admin</div>
+    <div >
+      <Login/>
+      
+    </div>
   )
 }
 
