@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppContext } from '../context/AppContext.jsx'
+import { AppContext } from '../context/Appcontext.jsx'
 
 const Doctors = () => {
 const [fliterDoc, setFilterDoc]=useState([]);
@@ -30,7 +30,7 @@ useEffect(()=>{
         <button className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${showFilter?'bg-primary text-white':''}`}
         onClick={()=>setShowFilter(prev=>!prev)}>filters</button>
         <div className={`flex-col gap-4 text-sm text-gray-600 cursor-pointer ${showFilter ? 'flex':'hidden sm:flex'} `}>
-          <p  onClick={()=>speciality==='General%20physician' ? navigate('/doctors') : navigate('/doctors/General%20physician')} className={`w-[94vw] sm:w-auto pl-1.5 border-gray-300 py-1.5 pr-16 border ${speciality ==="General%20physician" ? "bg-indigo-100 text-black" :""}`}>General Physician</p>
+          <p  onClick={()=>speciality==='General%20Physician' ? navigate('/doctors') : navigate('/doctors/General%20Physician')} className={`w-[94vw] sm:w-auto pl-1.5 border-gray-300 py-1.5 pr-16 border ${speciality ==="General%20Physician" ? "bg-indigo-100 text-black" :""}`}>General Physician</p>
           <p  onClick={()=>speciality==='Gynecologist' ? navigate('/doctors') : navigate('/doctors/Gynecologist')}   className={`w-[94vw] sm:w-auto pl-1.5 border-gray-300 py-1.5 pr-16 border ${speciality ==="Gynecologist" ? "bg-indigo-100 text-black" :""}`}>Gynecologist</p>
           <p   onClick={()=>speciality==='Dermatologist' ? navigate('/doctors/') : navigate('/doctors/Dermatologist')}  className={`w-[94vw] sm:w-auto pl-1.5 border-gray-300 py-1.5 pr-16 border ${speciality ==="Dermatologist" ? "bg-indigo-100 text-black" :""}`}>Dermatologist</p> 
        
