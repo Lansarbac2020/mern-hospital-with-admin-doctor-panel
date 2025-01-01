@@ -12,7 +12,7 @@ const AddDoctor = () => {
     const [password, setPassword] = useState("");
     const [experience, setExperience] = useState("1 Year");
     const [fees, setFees] = useState("");
-    const [speciality, setSpeciality] = useState("General Physician");
+    const [speciality, setSpeciality] = useState("General%20physician");
     const [degree, setDegree] = useState("");
     const [education, setEducation] = useState("");
     const [address1, setAddress1] = useState("");
@@ -184,7 +184,7 @@ const {backendUrl, aToken}=useContext(AdminContext);
                 required
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                <option value="General Physician">General Physician</option>
+                <option value="General%20physician">General Physician</option>
                 <option value="Gynecologist">Gynecologist</option>
                 <option value="Dermatologist">Dermatologist</option>
                 <option value="Pediatricians">Pediatricians</option>
