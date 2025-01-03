@@ -12,7 +12,7 @@ const navigate= useNavigate();
   const [state, setState] = useState('Sign up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(localStorage.getItem('token')?localStorage.getItem('token'):false);
+  const [name, setName] = useState('');
  
 
   const onSubmitHandler = async (e) => {
