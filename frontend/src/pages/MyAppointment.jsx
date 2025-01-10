@@ -8,12 +8,36 @@ const MyAppointment = () => {
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const months =['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  //const months =['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  const slotDateFormat=(slotDate)=>{
-    const dateArray= slotDate.split('_');
-    return dateArray[0]+ " " + months[Number(dateArray[1])]+" "+dateArray[2];
-  }
+  const slotDateFormat = (slotDate) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+    if (!slotDate) return "Invalid Date"; // Handle empty input
+  
+    try {
+      // Split the date string by '-' instead of '_'
+      const dateArray = slotDate.split('-');
+      if (dateArray.length === 3) {
+        const day = parseInt(dateArray[0], 10); // Extract day
+        const monthIndex = parseInt(dateArray[1], 10); // Extract month (adjusting for 1-based index)
+        const year = dateArray[2]; // Extract year
+  
+        // Handle invalid month or day values
+        if (monthIndex < 1 || monthIndex > 12 || isNaN(day) || isNaN(monthIndex)) {
+          return "Invalid Date";
+        }
+  
+        const month = months[monthIndex - 1]; // Adjust for zero-based index
+        return `${day} ${month} ${year}`;
+      }
+      return "Invalid Date"; // Fallback for invalid input format
+    } catch (error) {
+      console.error("Error formatting slotDate:", error);
+      return "Invalid Date";
+    }
+  };
+  
 
   // Function to fetch user appointments
   const getUserAppointments = async () => {
