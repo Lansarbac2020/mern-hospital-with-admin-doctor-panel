@@ -10,6 +10,7 @@ const AdminContextProvider=(props)=>{
     const [doctors,setDoctors]=useState([]);
     //get all apppointment
     const [appointments,setAppointments]=useState([]);
+    const [dashData,setDashData]=useState(false);
 
     const backendUrl=import.meta.env.VITE_BACKEND_URL
 
@@ -61,8 +62,48 @@ const getAllAppointments=async()=>{
     }
 }
 
+
+const cancelAppointment=async(appointmentId)=>{
+     try {
+        
+   const {data}=await axios.post(backendUrl + '/api/admin/cancel-appointment',{appointmentId},{headers:{aToken}});
+
+   if(data.success){
+    toast.success(data.message)
+    getAllAppointments();
+   }else{
+    toast.error(data.message);
+   }
+
+     } catch (error) {
+        toast.error(error.message);
+     }
+}
+
+//get dashboard data
+const getDashData = async () => {
+    try {
+        const { data } = await axios.get(backendUrl + '/api/admin/dashboard', { headers: { aToken } });
+    
+        // Check if data and success are valid and that dashData exists
+        if (data?.success && data?.data) { 
+            setDashData(data.data); // 'data' is the object containing 'dashData'
+            //console.log("Dashboard Data:", data.data);
+        } else {
+            // Handle case where success is false or dashData is missing
+            toast.error(data?.message || "Unexpected response from server");
+        }
+    } catch (error) {
+        // Handle any errors during the API call
+        console.error("Error fetching dashboard data:", error);
+        toast.error(error?.message || "Error fetching dashboard data");
+    }
+};
+
+
     const value={
     aToken,setAToken,backendUrl,doctors,getAllDoctors,changeAvailability,appointments, setAppointments,getAllAppointments,
+    cancelAppointment,dashData,getDashData
     }
 
     return(
