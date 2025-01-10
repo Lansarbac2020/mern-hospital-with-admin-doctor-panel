@@ -57,6 +57,21 @@ const cancelAppointment=async(appointmentId)=>{
     toast.error(error.message);
   }
 }
+
+const appointmentRazorpay=async(appointmentId)=>{
+   try {
+    
+const  {data}=await axios.post(`${backendUrl}/api/user/payment-razorpay`,{appointmentId},{headers:{token}});
+
+if(data.success){
+  console.log(data.order);
+}
+
+   } catch (error) {
+    
+   }
+}
+
   // useEffect to trigger fetching appointments when token changes
   useEffect(() => {
     if (token) {
@@ -94,7 +109,9 @@ const cancelAppointment=async(appointmentId)=>{
               </div>
               <div className="flex flex-col gap-2 justify-end">
               {!item.cancelled &&
-                <button className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border hover:bg-primary hover:text-white transition-all rounded-lg duration-300">
+                <button 
+                // onClick={()=>appointmentRazorpay(item._id)}
+                className="text-sm text-stone-500 text-center sm:min-w-48 py-2 border hover:bg-primary hover:text-white transition-all rounded-lg duration-300">
                   Pay online
                 </button>}
                {!item.cancelled &&
