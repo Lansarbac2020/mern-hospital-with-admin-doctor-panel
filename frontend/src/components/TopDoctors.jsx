@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../context/Appcontext.jsx'
 
 const TopDoctors = () => {
     const navigate=useNavigate();
@@ -20,9 +20,11 @@ const TopDoctors = () => {
                 hover:translate-y-[10px] transition-all duration-500 '>
                     <img className='bg-blue-50' src={item.image} alt=''/>
                     <div className='p-4'>
-                        <div className='flex gap-2 text-sm text-center text-green-500 items-center'>
-           <p className='w-2 h-2 rounded-full bg-green-500'></p>
-         <p className=''>Available</p>
+                        <div className={`flex gap-2 text-sm text-center ${item.available?'text-green-500':"ttext-gray-800"
+                            
+                        } items-center`}>
+           <p className={`w-2 h-2 ${item.available? 'bg-green-500':'bg-gray-500'}rounded-full `}></p>
+         <p className=''>{item.available?"Available":"Not available"}</p>
                         </div>
                         <p className='text-gray-900 text-lg font-bold'>{item.name}</p>
                         <p className='text-gray-600 text-sm'>{item.speciality}</p>
