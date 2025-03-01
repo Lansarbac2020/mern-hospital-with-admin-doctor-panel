@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { AdminContext } from '../../context/AdminContext'
+import { FaTrashAlt } from "react-icons/fa";
+
 
 const DoctorsList = () => {
 
-  const {doctors,aToken,getAllDoctors,changeAvailability}=useContext(AdminContext);
+  const {doctors,aToken,getAllDoctors,deleteDoctor,changeAvailability}=useContext(AdminContext);
 
   useEffect(()=>{
     if(aToken){
@@ -27,12 +29,20 @@ const DoctorsList = () => {
                <div className='p-4'>
                 <p className='text-neutral-800 text-lg font-medium'>{doctor.name}</p>
                 <p className='text-zinc-600 text-sm'>{doctor.speciality}</p>
+                <div className='flex justify-between'>
                 <div className='mt-2 flex items-center gap-1 text-sm'>
                   <input 
                   onChange={()=>changeAvailability(doctor._id)}
                   type="checkbox" checked={doctor.available} />
                   <p className='text-slate-800'>Available</p>
+                </div> 
+                <p 
+                className=' text-end text-primary hover:text-red-900 cursor-pointer'
+                onClick={()=>deleteDoctor(doctor._id)}
+                ><FaTrashAlt/></p>
+
                 </div>
+                
                 </div>
                 
               </div>
