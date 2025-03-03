@@ -1,78 +1,76 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { assets } from '../../assets/assets';
 import { AdminContext } from '../../context/AdminContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const AddDoctor = () => {
-
     const [docImg, setDocImg] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [experience, setExperience] = useState("1 Year");
     const [fees, setFees] = useState("");
-    const [speciality, setSpeciality] = useState("General%20physician");
+    const [selectedSpeciality, setSelectedSpeciality] = useState("");
     const [degree, setDegree] = useState("");
-    const [education, setEducation] = useState("");
     const [address1, setAddress1] = useState("");
     const [address2, setAddress2] = useState("");
     const [about, setAbout] = useState("");
 
-const {backendUrl, aToken}=useContext(AdminContext);
+    const { backendUrl, aToken, getAllSpeciality, speciality } = useContext(AdminContext);
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         try {
+            if (!docImg) return toast.error("Please upload doctor's image");
+
+            const formData = new FormData();
+            formData.append("image", docImg);
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("experience", experience);
+            formData.append("fees", Number(fees));
+            formData.append("speciality", selectedSpeciality);
+            formData.append("degree", degree);
+            formData.append("address", JSON.stringify({
+                line1: address1,
+                line2: address2
+            }));
+            formData.append("about", about);
+
+            const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, { headers: { aToken } });
             
-            if (!docImg) {
-                return toast.error("Please upload doctor's image");
+            if (data.success) {
+                toast.success(data.message);
+                // Reset form fields
+                setDocImg(false);
+                setName("");
+                setEmail("");
+                setPassword("");
+                setFees("");
+                setSelectedSpeciality(speciality[0]?._id || "");
+                setDegree("");
+                setAbout("");
+                setAddress1("");
+                setAddress2("");
+            } else {
+                toast.error(data.message);
             }
-
-        const formData = new FormData();
-        formData.append("image", docImg);
-        formData.append("name", name);
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("experience", experience);
-        formData.append("fees", Number(fees));
-        formData.append("speciality", speciality);
-        formData.append("degree", degree);
-    
-        formData.append("address",JSON.stringify({
-            line1: address1,
-            line2: address2
-        }));
-        formData.append("about", about);
-
-        formData.forEach((value,key)=>{
-            console.log(`${key} ${value}`)
-        })
-        
-   const {data}=await axios.post(backendUrl + '/api/admin/add-doctor',formData, { headers:{aToken}})
-   if(data.success){
-    toast.success(data.message)
-    setDocImg(false);
-    setName("");
-    setEmail("");
-    setPassword("");    
-    //setExperience("1 Year");
-    setFees("");
-    //setSpeciality("General Physician");
-    setDegree("");    
-    setAbout("");      
-    setAddress1("");
-    setAddress2("");
-   }else{
-    toast.error(data.message)
-   }
         } catch (error) {
-            toast.error(error.message)
-            //console.log("error",error);
+            toast.error(error.message);
         }
+    };
 
-    }
+    useEffect(() => {
+        getAllSpeciality();
+    }, []);
 
+    useEffect(() => {
+        if (speciality.length > 0) {
+            setSelectedSpeciality(speciality[0]?._id);
+        }
+    }, [speciality]);
   return (
     
       <form onSubmit={onSubmitHandler} className="w-full m-5  bg-white shadow-lg rounded-lg p-8">
@@ -175,22 +173,21 @@ const {backendUrl, aToken}=useContext(AdminContext);
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Speciality
-              </label>
-              <select
-               onChange={(e) => setSpeciality(e.target.value)}
-               value={speciality}
-                required
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option value="General%20physician">General Physician</option>
-                <option value="Gynecologist">Gynecologist</option>
-                <option value="Dermatologist">Dermatologist</option>
-                <option value="Pediatricians">Pediatricians</option>
-                <option value="Neurologist">Neurologist</option>
-                <option value="Gastroenterologist">Gastroenterologist</option>
-              </select>
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                    Speciality
+                </label>
+                <select
+                    onChange={(e) => setSelectedSpeciality(e.target.value)}
+                    value={selectedSpeciality}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                    {speciality.map((spec) => (
+                        <option key={spec._id} value={spec._id}>
+                            {spec.name}
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-600 mb-1">
