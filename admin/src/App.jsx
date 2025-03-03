@@ -16,6 +16,7 @@ import DoctorDashboard from './pages/Doctor/DoctorDashboard';
 import DoctorAppointment from './pages/Doctor/DoctorAppointment';
 import DoctorProfile from './pages/Doctor/DoctorProfile';
 import AddSpeciality from './pages/Admin/AddSpeciality';
+import AllSpeciality from './pages/Admin/AllSpeciality';
 
 
 const Admin = () => {
@@ -40,6 +41,8 @@ const Admin = () => {
           <Route path='/add-doctor' element={<AddDoctor/>}/>
           <Route path='/doctor-list' element={<DoctorsList/>}/>
           <Route path='/add-speciality' element={<AddSpeciality/>}/>
+          <Route path='/specialities' element={<AllSpeciality/>}/>
+
              {/* DoctorRoutes */}
              <Route path='/doctor-dashboard' element={<DoctorDashboard/>}/>
              <Route path='/doctor-appointment' element={<DoctorAppointment/>}/>

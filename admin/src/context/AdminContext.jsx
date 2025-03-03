@@ -11,6 +11,8 @@ const AdminContextProvider=(props)=>{
     //get all apppointment
     const [appointments,setAppointments]=useState([]);
     const [dashData,setDashData]=useState(false);
+    // get all speciality
+    const [speciality, setspeciality]=useState([]);
 
     const backendUrl=import.meta.env.VITE_BACKEND_URL
 
@@ -27,6 +29,36 @@ const AdminContextProvider=(props)=>{
    }
  } catch (error) {
             toast.error(error.message);
+        }
+    }
+
+    const getAllSpeciality=async()=>{
+        try {
+            
+            const {data} =await axios.post(backendUrl + '/api/admin/all-speciality',{},{headers:{aToken}});
+             
+            if(data.success){
+              setspeciality(data.speciality);
+              console.log(data.speciality);
+            }else{
+             toast.error(data.message);
+            }
+          } catch (error) {
+              toast.error(error.message);
+      }
+    }
+    const deleteSpeciality=async(specId)=>{
+        try {
+           
+        const {data} =await axios.delete(backendUrl + `/api/admin/speciality/${specId}`,{headers:{aToken}});
+        if(data.success){
+           toast.success(data.message);
+           getAllSpeciality();
+        }else{
+           toast.error(data.message);
+        }
+        } catch (error) {
+           toast.error(error.message);
         }
     }
  const deleteDoctor=async(docId)=>{
@@ -117,7 +149,9 @@ const getDashData = async () => {
 
     const value={
     aToken,setAToken,backendUrl,doctors,getAllDoctors,changeAvailability,appointments, setAppointments,getAllAppointments,
-    cancelAppointment,dashData,getDashData,deleteDoctor
+    cancelAppointment,dashData,getDashData,deleteDoctor,
+    getAllSpeciality,speciality,
+    deleteSpeciality
     }
 
     return(
