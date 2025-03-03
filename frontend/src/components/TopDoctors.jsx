@@ -1,11 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/Appcontext.jsx';
 import { Star, MapPin, ArrowRight } from 'lucide-react';
+import { AdminContext } from '../context/AdminContext.jsx';
 
 const TopDoctors = () => {
   const navigate = useNavigate();
   const { doctors } = useContext(AppContext);
+  const { speciality, getAllSpeciality } = useContext(AdminContext);
+
+  useEffect(() => {
+    getAllSpeciality();
+  }, []);
+
+  const specialitiesMap = useMemo(() => {
+    return Array.isArray(speciality)
+      ? speciality.reduce((acc, spec) => {
+          acc[spec._id] = spec.name;
+          return acc;
+        }, {})
+      : {};
+  }, [speciality]);
 
   const handleDoctorClick = (doctorId) => {
     navigate(`/appointment/${doctorId}`);
@@ -35,8 +50,8 @@ const TopDoctors = () => {
               key={index}
               onClick={() => handleDoctorClick(doctor._id)}
               className="group bg-white rounded-2xl border border-gray-100 
-                       hover:border-blue-100 hover:shadow-xl cursor-pointer
-                       transition-all duration-300 overflow-hidden"
+                         hover:border-blue-100 hover:shadow-xl cursor-pointer
+                         transition-all duration-300 overflow-hidden"
             >
               {/* Image Container */}
               <div className="relative h-48 overflow-hidden bg-blue-50">
@@ -44,13 +59,15 @@ const TopDoctors = () => {
                   src={doctor.image}
                   alt={doctor.name}
                   className="w-full h-full object-cover object-center 
-                           group-hover:scale-105 transition-transform duration-500"
+                             group-hover:scale-105 transition-transform duration-500"
                 />
                 {/* Availability Badge */}
-                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm
-                                font-medium ${doctor.available 
-                                  ? 'bg-green-50 text-green-700' 
-                                  : 'bg-gray-50 text-gray-600'}`}>
+                <div
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm
+                              font-medium ${doctor.available 
+                                ? 'bg-green-50 text-green-700' 
+                                : 'bg-gray-50 text-gray-600'}`}
+                >
                   {doctor.available ? 'Available' : 'Unavailable'}
                 </div>
               </div>
@@ -58,17 +75,17 @@ const TopDoctors = () => {
               {/* Content Section */}
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600
-                             transition-colors duration-200">
+                               transition-colors duration-200">
                   {doctor.name}
                 </h3>
-                
+
                 <div className="mt-2 flex items-center gap-2">
                   <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                   <span className="text-sm text-gray-600">Top Rated Specialist</span>
                 </div>
 
                 <p className="mt-2 text-blue-600 font-medium">
-                  {doctor.speciality}
+                  {specialitiesMap[doctor.speciality] || "Unknown Speciality"}
                 </p>
 
                 {doctor.location && (
@@ -80,9 +97,11 @@ const TopDoctors = () => {
 
                 {/* Book Now Button */}
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <button className="w-full bg-blue-50 text-blue-600 px-4 py-2 rounded-lg
-                                   group-hover:bg-blue-600 group-hover:text-white
-                                   transition-all duration-200 flex items-center justify-center gap-2">
+                  <button
+                    className="w-full bg-blue-50 text-blue-600 px-4 py-2 rounded-lg
+                               group-hover:bg-blue-600 group-hover:text-white
+                               transition-all duration-200 flex items-center justify-center gap-2"
+                  >
                     Book Appointment
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </button>
@@ -100,8 +119,8 @@ const TopDoctors = () => {
               window.scrollTo(0, 0);
             }}
             className="inline-flex items-center gap-2 bg-blue-600 text-white 
-                     px-8 py-4 rounded-full hover:bg-blue-700 
-                     transition-colors duration-200 group"
+                       px-8 py-4 rounded-full hover:bg-blue-700 
+                       transition-colors duration-200 group"
           >
             View All Doctors
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
